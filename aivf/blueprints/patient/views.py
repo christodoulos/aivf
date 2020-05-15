@@ -4,7 +4,7 @@ from flask_login import login_required
 from requests import get, post, codes
 
 from .forms import QueryPatientForm, EditPatientForm
-from .utils import fetch_existing, fetch_welldata, push_missing
+from .utils import fetch_existing, fetch_welldata, push_missing, fetch_missing
 
 patient = Blueprint("patient", __name__, template_folder="templates")
 
@@ -36,17 +36,26 @@ def patient_missing():
     slide_id = request.args.get("slide_id")
     well = request.args.get("well")
     welldata = fetch_welldata(patient_id, slide_id, well)
+    missing = fetch_missing(patient_id, slide_id, well)
     if request.method == "GET":
         data = fetch_existing(patient_id, slide_id, well)
-        form = EditPatientForm(data=data)
+        missing["fetal_heart_beat"] = missing.pop("Fetal Heart Beat", "")
+        missing["live_born"] = missing.pop("Live Born", "")
+        missing["morphological_grade_value"] = missing.pop(
+            "Morphological Grade - Value", ""
+        )
+        tralala = {k: v for k, v in missing.items() if v}
+        print(missing)
+        print("======================================================================")
+        # tralala is merged with data for form initialization but finally unmerged data
+        # is passed to template! SATANIC and by accident
+        print({**data, **tralala})
+        print("======================================================================")
+        form = EditPatientForm(data={**data, **tralala})
     else:
         form = EditPatientForm()
     if form.validate_on_submit():
-        print("==============================================================")
-        print(form.data)
-        print("==============================================================")
         action = push_missing(patient_id, slide_id, well, form.data)
-        print(action)
         flash(
             "Values updated for case {}:{}:{}".format(patient_id, slide_id, well),
             "success",
@@ -60,6 +69,7 @@ def patient_missing():
         welldata=welldata,
         well=int(well),
         form=form,
+        missing=missing,
     )
 
 
@@ -68,6 +78,7 @@ def patient_missing():
 def case_display(patient_id, slide_id, well):
     request = get(API_CASE.format(patient_id, slide_id, well))
     data = request.json()
+    missing = fetch_missing(patient_id, slide_id, well)
     return render_template(
         "patient/patient_case_details.html",
         patient_id=patient_id,
@@ -77,4 +88,5 @@ def case_display(patient_id, slide_id, well):
         have_images=data["have_images"],
         image=data["image"],
         medical=data["medical"],
+        missing=missing,
     )

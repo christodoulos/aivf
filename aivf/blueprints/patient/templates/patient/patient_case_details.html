@@ -37,11 +37,20 @@
 <table class="table table-bordered table-striped">
   <tbody>
     {% for key, value in medical.items() %}
+    {% if key in missing.keys() %}
+    <tr class="table-warning">
+      <td>
+        <strong> {{ key|e }}</strong>
+      </td>
+      <td>{{ missing[key]|e }}</td>
+    </tr>
+    {% else %}
     {% if value %}
     <tr>
       <td><strong>{{ key|e  }}</strong></td>
       <td>{{ value|e }}</td>
     </tr>
+    {% endif %}
     {% endif %}
     {% endfor %}
   </tbody>

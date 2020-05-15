@@ -34,8 +34,7 @@ class PatientAllCasesResource(Resource):
 class PatientCase(Resource):
     def get(self, patient_id, slide_id, well):
         """ Retrives a specific <patient_id> <slide_id> case """
-        case = Metamedical.objects.get(patient_id=patient_id,
-                                       slide_id=slide_id)
+        case = Metamedical.objects.get(patient_id=patient_id, slide_id=slide_id)
         try:
             have_images = case.have_images
             image_id = "{}:{}:1:0".format(slide_id, well)
@@ -47,15 +46,28 @@ class PatientCase(Resource):
         except AttributeError:
             have_images = False
             image = None
-        medical = Medical.objects.get(patient_id=patient_id,
-                                      slide_id=slide_id,
-                                      well=well)
-        return jsonify({
-            "fertilized": case.fwells,
-            "have_images": have_images,
-            "medical": medical,
-            "image": image,
-        })
+        medical = Medical.objects.get(
+            patient_id=patient_id, slide_id=slide_id, well=well
+        )
+        return jsonify(
+            {
+                "fertilized": case.fwells,
+                "have_images": have_images,
+                "medical": medical,
+                "image": image,
+            }
+        )
+
+
+@patient.route("/fromsteve/<string:case_id>")
+class FromSteve(Resource):
+    def get(self, case_id):
+        try:
+            case = Missing.objects.get(_id=case_id)
+        except Missing.DoesNotExist:
+            case = None
+        print("In FromSteve", jsonify(case))
+        return jsonify(case)
 
 
 @patient.route("/missing/<string:patient_id>/<string:slide_id>/<string:well>")

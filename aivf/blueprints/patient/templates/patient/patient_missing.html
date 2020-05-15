@@ -30,6 +30,8 @@
   </button>
 </p>
 
+{{data.tDead}}
+
 {% call f.form_tag('patient.patient_missing',patient_id=patient_id,slide_id=slide_id,well=well) %}
 {% call f.form_group(form.fetal_heart_beat,disabled=data.fetal_heart_beat!="") %} {% endcall %}
 {% call f.form_group(form.live_born,disabled=data.live_born!="") %} {% endcall %}
