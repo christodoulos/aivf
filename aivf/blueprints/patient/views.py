@@ -39,12 +39,15 @@ def patient_missing():
     missing = fetch_missing(patient_id, slide_id, well)
     if request.method == "GET":
         data = fetch_existing(patient_id, slide_id, well)
-        missing["fetal_heart_beat"] = missing.pop("Fetal Heart Beat", "")
-        missing["live_born"] = missing.pop("Live Born", "")
-        missing["morphological_grade_value"] = missing.pop(
-            "Morphological Grade - Value", ""
-        )
-        tralala = {k: v for k, v in missing.items() if v}
+        if missing:
+            missing["fetal_heart_beat"] = missing.pop("Fetal Heart Beat", "")
+            missing["live_born"] = missing.pop("Live Born", "")
+            missing["morphological_grade_value"] = missing.pop(
+                "Morphological Grade - Value", ""
+            )
+            tralala = {k: v for k, v in missing.items() if v}
+        else:
+            tralala = {}
         print(missing)
         print("======================================================================")
         # tralala is merged with data for form initialization but finally unmerged data
