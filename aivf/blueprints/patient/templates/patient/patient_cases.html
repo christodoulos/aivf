@@ -1,0 +1,30 @@
+{% extends "layouts/base.html" %}
+{% block body %}
+<h4>Patient <code>{{ patient_id }}</code> cases</h4>
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+      <th>Slides</th>
+      <th>Date</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for case in cases %}
+    <tr>
+      <td>
+        <span class="align-middle">{{case['Slide ID']}}</span>
+      </td>
+      <td>
+        {{case['Fertilization'] | bsondate }}
+      </td>
+      <td>
+        <a href="/patient/display/{{case["Patient ID"]}}/{{case['Slide ID']}}/1">View</a> &nbsp;
+        <a href="/patient/missing/{{case["Patient ID"]}}/{{case['Slide ID']}}">Missing</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<a href="/patient/query">Search again</a>
+{% endblock %}

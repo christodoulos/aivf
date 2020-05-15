@@ -1,0 +1,25 @@
+{# Render Flask messages. #}
+{%- macro render() -%}
+{% with messages = get_flashed_messages(with_categories=True) %}
+{% if messages %}
+<div id="flash-messages"
+     class="row mb-4 justify-content-center">
+  {% for category, msg in messages %}
+  {% if category == "error" %}
+  {% set category = "danger" %}
+  {% endif %}
+  <div class="alert alert-{{ category }}"
+       role="alert">
+    {% if category == "danger" %}
+    <i class="fas fa-exclamation-triangle"></i>
+    {% endif %}
+    {% if category == "success" %}
+    <i class="fas fa-check"></i>
+    {% endif %}
+    {{ msg }}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+{%- endmacro -%}

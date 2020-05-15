@@ -1,0 +1,50 @@
+{% extends "layouts/base.html" %}
+{% block body %}
+
+<h4>Patient <code> {{ patient_id }} </code> details</h4>
+<h5>Slide ID <code> {{ slide_id  }} </code> </h5>
+
+<nav>
+  <ul class="pagination">
+    <li class="page-item disabled">
+      <a class="page-link"
+         href="#"
+         tabindex="-1"><strong>Wells: </strong></a>
+    </li>
+    {% for i in range(1,13) %}
+    <li class="page-item
+      {% if i==well %} active {% endif %} 
+      {% if not welldata[i-1] %} disabled {% endif %}">
+      <a class="page-link"
+         href="/patient/display/{{patient_id}}/{{slide_id}}/{{i}}">{{ i }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</nav>
+
+{% if have_images %}
+<p><small>Image of well {{well}} at run 0 with focal 0</small><br><img src={{ "data:image/jpeg;base64,{}".format(image,'b') }}></p>
+{% endif %}
+
+<h5>All available medical data for well {{ well }}</h5>
+<p>
+  <button type="button"
+          class="btn btn-primary"
+          onclick="window.location.href='/patient/missing?patient_id={{patient_id}}&slide_id={{slide_id}}&well={{well}}'">
+    <i class="fas fa-table"></i>&nbsp; Fill missing data
+  </button>
+</p>
+<table class="table table-bordered table-striped">
+  <tbody>
+    {% for key, value in medical.items() %}
+    {% if value %}
+    <tr>
+      <td><strong>{{ key|e  }}</strong></td>
+      <td>{{ value|e }}</td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

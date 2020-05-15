@@ -1,0 +1,29 @@
+Flask
+
+# Application server for both development and production
+gunicorn
+
+# Testing and statc analysis
+pytest
+pytest-cov
+flake8
+
+# Click is already present?
+Click
+
+# Data and workers
+#redis
+#celery
+pymongo
+
+requests
+
+# Forms
+Flask-WTF
+WTForms-Components
+
+# Extensions
+flask-debugtoolbar
+flask-restx
+Flask-mail
+flask-mongoengine

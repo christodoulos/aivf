@@ -1,0 +1,16 @@
+{% extends 'layouts/base.html' %}
+{% import 'macros/form.html' as f with context %}
+
+{% block body %}
+<div class="row">
+  <div class="col-md-8 col-md-offset-2 well">
+    {% call f.form_tag('patient.patient_query') %}
+    <legend><i class="fas fa-search"></i> Search by Patient ID</legend>
+    {% call f.form_group(form.patient_id) %}
+    {% endcall %}
+    <button type="submit"
+            class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
+    {% endcall %}
+  </div>
+</div>
+{% endblock %}

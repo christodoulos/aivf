@@ -1,0 +1,18 @@
+version: "2"
+
+services:
+  website:
+    build: .
+    command: >
+      gunicorn -w5
+      -b 0.0.0.0:8000
+      --access-logfile -
+      --reload
+      "aivf.app:create_app()"
+    environment:
+      PYTHONUNBUFFERED: "true"
+    volumes:
+      - ".:/aivf"
+      - "$SSH_AUTH_SOCK:/ssh-agent"
+    ports:
+      - "8000:8000"
