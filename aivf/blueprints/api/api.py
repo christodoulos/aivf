@@ -101,7 +101,7 @@ class PatientMissing(Resource):
     def post(self, patient_id, slide_id, well):
         data = request.form.to_dict(flat=True)
         not_empty = {k: v for k, v in data.items() if v}
-        patient.logger.info(not_empty)
+        patient.logger.debug(not_empty)
         doc = Missing(**not_empty)
         doc.save()
         return True
