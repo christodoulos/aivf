@@ -11,7 +11,7 @@ api = Api(
     title="AIVF API",
     description="An API for AIVF transactions",
 )
-parser = api.parser()
+#  parser = api.parser()
 patient = api.namespace("patient", description="PATIENT operations")
 
 
@@ -99,11 +99,9 @@ class PatientMissing(Resource):
         return jsonify(cases)
 
     def post(self, patient_id, slide_id, well):
-        print("==============================================================")
         data = request.form.to_dict(flat=True)
         not_empty = {k: v for k, v in data.items() if v}
+        patient.logger.info(not_empty)
         doc = Missing(**not_empty)
         doc.save()
-        print("==============================================================")
-        print("Afert Save")
         return True
