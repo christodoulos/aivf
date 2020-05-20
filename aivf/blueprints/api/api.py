@@ -17,7 +17,7 @@ patient = api.namespace("patient", description="PATIENT operations")
 
 @patient.route("/allcases/<string:patient_id>")
 @patient.param("patient_id", "The patient identifier")
-class PatientAllCasesResource(Resource):
+class PatientAllCases(Resource):
     def get(self, patient_id):
         """ Retrieves all cases of <patient_id> Patient """
         cases = Metamedical.objects(patient_id=patient_id)
