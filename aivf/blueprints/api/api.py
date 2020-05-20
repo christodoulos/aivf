@@ -12,9 +12,7 @@ api = Api(
     title="AIVF API",
     description="An API for AIVF transactions",
 )
-#  parser = api.parser()
 patient = api.namespace("patient", description="PATIENT operations")
-patient.logger.setLevel(logging.DEBUG)
 
 
 @patient.route("/allcases/<string:patient_id>")
@@ -103,6 +101,7 @@ class PatientMissing(Resource):
     def post(self, patient_id, slide_id, well):
         data = request.form.to_dict(flat=True)
         not_empty = {k: v for k, v in data.items() if v}
+        logging.error("AI GAMISOU MIRMIGAKI")
         patient.logger.debug("tralala")
         patient.logger.debug(not_empty)
         doc = Missing(**not_empty)

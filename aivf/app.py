@@ -123,6 +123,7 @@ def template_processors(app):
 
 
 def logging_setup(app):
-    gunicorn_logger = logging.getLogger("gunicorn.debug")
+    logging.basicConfig(level=logging.DEBUG)
+    gunicorn_logger = logging.getLogger("gunicorn.DEBUG")
     app.logger.handlers = gunicorn_logger.handlers
     app.logger.setLevel(gunicorn_logger.level)
