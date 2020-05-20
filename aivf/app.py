@@ -1,3 +1,4 @@
+import logging
 from flask import Flask
 
 #  from flask_login import current_user
@@ -68,6 +69,8 @@ def create_app(settings_override=None):
     extensions(app)
     authentication(app, User)
 
+    logging_setup(app)
+
     return app
 
 
@@ -117,3 +120,9 @@ def template_processors(app):
     # app.jinja_env.globals.update(current_year=current_year)
 
     return app.jinja_env
+
+
+def logging_setup(app):
+    gunicorn_logger = logging.getLogger("gunicorn.error")
+    app.logger.handlers = gunicorn_logger.handlers
+    app.logger.setLevel(gunicorn_logger.level)
