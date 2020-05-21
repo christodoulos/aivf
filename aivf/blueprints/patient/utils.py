@@ -71,7 +71,7 @@ def push_missing(patient_id, slide_id, well, data):
     endpoint = url_for(
         "api.patient_patient_missing",
         _external=True,
-        _scheme="http",
+        #  _scheme="http",
         patient_id=patient_id,
         slide_id=slide_id,
         well=well,

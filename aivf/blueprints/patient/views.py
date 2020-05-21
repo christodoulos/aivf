@@ -61,6 +61,9 @@ def patient_missing():
         form = EditPatientForm()
     if form.validate_on_submit():
         action = push_missing(patient_id, slide_id, well, form.data)
+        print("======================================================================")
+        print(action)
+        print("======================================================================")
         flash(
             "Values updated for case {}:{}:{}".format(patient_id, slide_id, well),
             "success",
