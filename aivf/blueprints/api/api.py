@@ -1,4 +1,3 @@
-import logging
 from flask import Blueprint, jsonify, request
 from flask_restx import Api, Resource
 from base64 import b64encode
@@ -101,7 +100,5 @@ class PatientMissing(Resource):
     def post(self, patient_id, slide_id, well):
         data = request.form.to_dict(flat=True)
         not_empty = {k: v for k, v in data.items() if v}
-        with open("lalakis", "w") as f:
-            f.write(repr(not_empty))
         doc = Missing(**not_empty)
         return jsonify(doc.save())

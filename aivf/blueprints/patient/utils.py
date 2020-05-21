@@ -1,26 +1,9 @@
 from flask import url_for
 from requests import get, post
-from lib.flask_requests import flask_get, secure_get
+from lib.flask_requests import flask_get
 
 
 def fetch_existing(patient_id, slide_id, well):
-    #  endpoint = url_for(
-    #      "api.patient_patient_missing",
-    #      _external=True,
-    #      #  _scheme="https",
-    #      patient_id=patient_id,
-    #      slide_id=slide_id,
-    #      well=well,
-    #  )
-    #  r = get(endpoint)
-    #  # TODO: examine if r==None ?
-    #  data = r.json()
-    #  data = secure_get(
-    #      "api.patient_patient_missing",
-    #      patient_id=patient_id,
-    #      slide_id=slide_id,
-    #      well=well,
-    #  )
     data = flask_get(
         "api.patient_patient_missing",
         patient_id=patient_id,
@@ -35,19 +18,6 @@ def fetch_existing(patient_id, slide_id, well):
 
 
 def fetch_missing(patient_id, slide_id, well):
-    #  endpoint = url_for(
-    #      "api.patient_from_steve",
-    #      _external=True,
-    #      #  _scheme="https",
-    #      case_id="{}:{}:{}".format(patient_id, slide_id, well),
-    #  )
-    #  r = get(endpoint)
-    #  return r.json()
-
-    #  return secure_get(
-    #      "api.patient_from_steve", case_id="{}:{}:{}".format(patient_id, slide_id, well)
-    #  )
-
     return flask_get(
         "api.patient_from_steve", case_id="{}:{}:{}".format(patient_id, slide_id, well)
     ).json()
@@ -71,7 +41,6 @@ def push_missing(patient_id, slide_id, well, data):
     endpoint = url_for(
         "api.patient_patient_missing",
         _external=True,
-        #  _scheme="http",
         patient_id=patient_id,
         slide_id=slide_id,
         well=well,

@@ -1,18 +1,13 @@
-from flask import Blueprint, render_template, flash, request, url_for, redirect
+from flask import Blueprint, render_template, flash, request, redirect
 from flask_login import login_required
 
-from requests import get, post, codes
+from requests import codes
 from lib.flask_requests import flask_get
 
 from .forms import QueryPatientForm, EditPatientForm
 from .utils import fetch_existing, fetch_welldata, push_missing, fetch_missing
 
 patient = Blueprint("patient", __name__, template_folder="templates")
-
-#  API = "http://fragkoudakis.com:8000/api/patient/"
-#  API_ALLCASES = API + "allcases/{}"
-#  API_CASE = API + "case/{}/{}/{}"
-#  API_MISSING = API + "missing/{}/{}/{}"
 
 
 @patient.route("/query", methods=["GET", "POST"])
@@ -21,7 +16,6 @@ def patient_query():
     form = QueryPatientForm()
     if form.validate_on_submit():
         patient_id = form.patient_id.data
-        #  cases = get(API_ALLCASES.format(patient_id), verify=False)
         cases = flask_get("api.patient_patient_all_cases", patient_id=patient_id)
         if cases.status_code == codes.not_found:
             flash("Patient ID not found: {}".format(patient_id), "error")
@@ -84,7 +78,6 @@ def patient_missing():
 @patient.route("/display/<string:patient_id>/<string:slide_id>/<string:well>")
 @login_required
 def case_display(patient_id, slide_id, well):
-    #  request = get(API_CASE.format(patient_id, slide_id, well), verify=False)
     r = flask_get(
         "api.patient_patient_case", patient_id=patient_id, slide_id=slide_id, well=well
     )
