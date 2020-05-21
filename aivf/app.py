@@ -56,6 +56,8 @@ def create_app(settings_override=None):
     app.config.from_object("config.settings")
     app.config.from_pyfile("settings.py", silent=True)
 
+    logging_setup(app)
+
     if settings_override:
         app.config.update(settings_override)
 
@@ -65,11 +67,8 @@ def create_app(settings_override=None):
     app.register_blueprint(patient, url_prefix="/patient")
 
     template_processors(app)
-
     extensions(app)
     authentication(app, User)
-
-    logging_setup(app)
 
     return app
 
@@ -124,6 +123,6 @@ def template_processors(app):
 
 def logging_setup(app):
     logging.basicConfig(level=logging.DEBUG)
-    gunicorn_logger = logging.getLogger("gunicorn.DEBUG")
+    gunicorn_logger = logging.getLogger("gunicorn.error")
     app.logger.handlers = gunicorn_logger.handlers
     app.logger.setLevel(gunicorn_logger.level)
