@@ -53,7 +53,7 @@
 {% call f.form_group(form.tEB,disabled=data.tEB!="") %} {% endcall %}
 {% call f.form_group(form.tHB,disabled=data.tHB!="") %} {% endcall %}
 {% call f.form_group(form.tDead,disabled=data.tDead!="") %} {% endcall %}
-{% call f.form_group(form.morphological_grade_value,disabled=data.morphological_grade_value!="") %} {% endcall %}
+{% call f.form_group(form.morphological_grade_value) %} {% endcall %}
 <button type="submit"
         class="btn btn-primary">Submit</button>
 {% endcall %}
