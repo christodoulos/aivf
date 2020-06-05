@@ -12,8 +12,8 @@ flake8
 Click
 
 # Data and workers
-#redis
-#celery
+redis
+celery
 pymongo
 
 requests
